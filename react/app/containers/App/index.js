@@ -32,7 +32,7 @@ export default function App() {
   return (
     <AppWrapper>
       <Helmet
-        titleTemplate="%s Beetbot"
+        titleTemplate="Beetbot %s"
         defaultTitle="Beetbot"
       >
         <meta name="description" content="A React.js Boilerplate application" />
