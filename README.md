@@ -1,3 +1,5 @@
+![Beetbot Logo](https://raw.githubusercontent.com/mkondel/beetbot/master/react/app/components/Header/banner2-gold.jpg)
+
 Text description here.
 
 # Contents
