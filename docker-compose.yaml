@@ -1,0 +1,51 @@
+version: '2'
+services:
+
+  # front end only
+  # chart, dateranges, strat params, results, plot annotations on chart
+  web:
+    build: .
+    ports:
+      - 80:80
+    # links:
+    #   - db
+
+  # the backend that runs all the calculations
+  # this can be node for now, but can also use python
+  # backtester:
+
+  # execute trades on the exchange using their API
+  # beetbot:
+
+  # given any date range and candle interval, returns array of candles
+  # candles:
+
+  # gekko:
+  #   image: gekko:latest
+  #   # stdin_open: true
+  #   # tty: true
+  #   ports:
+  #     - 80:3000
+  #   links:
+  #     - db
+  #   volumes:
+  #     - ../volumes/gekko/hist:/usr/src/app/history:rw
+
+  # gekkoga:
+  #   image: gekkoga:latest
+  #   stdin_open: true
+  #   tty: true
+  #   links:
+  #     - db
+  #     - gekko
+
+  # db:
+  #   image: postgres:alpine
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_DB: gekko
+  #     POSTGRES_USER: budfox
+  #     POSTGRES_PASSWORD: GordonGekko
+  #   volumes:
+  #     - ../volumes/postgres:/var/lib/postgresql/data:rw
