@@ -23,7 +23,7 @@ export default class ChartPage extends React.Component { // eslint-disable-line 
     return (
       <div>
         <Helmet>
-          <title>Chart Page</title>
+          <title>Chart</title>
           <meta name="description" content="Chart page" />
         </Helmet>
         <H1>
