@@ -3,12 +3,12 @@ services:
 
 # front end only
 # chart, dateranges, strat params, results, plot annotations on chart
-  web:
-    build: .
-    ports:
-      - 80:80
-    links:
-      - db
+  # web:
+  #   build: .
+  #   ports:
+  #     - 80:80
+  #   links:
+  #     - db
 # all the datas are belong to us
   db:
     image: postgres:alpine
