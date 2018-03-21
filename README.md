@@ -2,7 +2,9 @@
 <img src="media/banner2-gold.jpg">
 </p>
 
-Text description here.
+<p align="center"> 
+All your beetcoin are belong to us.
+</p>
 
 # Contents
 * [config.json](#config)
@@ -34,4 +36,4 @@ TEXT:
 ![TEXT](https://URL.png)
 
 # <a name="demo"></a>Live Demo
-[TEXT](http://URL.com/ "TEXT") demo running on AWS Beanstalk.
+[TEXT](http://beetcoin.com/ "TEXT") demo running on AWS Beanstalk.
