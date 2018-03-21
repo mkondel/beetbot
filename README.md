@@ -1,5 +1,5 @@
 <p align="center"> 
-<img src="https://raw.githubusercontent.com/mkondel/beetbot/master/react/app/components/Header/banner2-gold.jpg">
+<img src="media/banner2-gold.jpg">
 </p>
 
 Text description here.
