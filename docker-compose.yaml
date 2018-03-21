@@ -1,14 +1,6 @@
 version: '2'
 services:
 
-# front end only
-# chart, dateranges, strat params, results, plot annotations on chart
-  # web:
-  #   build: .
-  #   ports:
-  #     - 80:80
-  #   links:
-  #     - db
 # all the datas are belong to us
   db:
     image: postgres:alpine
@@ -21,6 +13,35 @@ services:
     volumes:
       - ../volumes/postgres:/var/lib/postgresql/data:rw
 
+# the GEKKO bot
+  gekko:
+    image: gekko:latest
+    # stdin_open: true
+    # tty: true
+    ports:
+      - 80:80
+    links:
+      - db
+    volumes:
+      - ../volumes/gekko/nn_files:/var/nn_files:rw
+
+  # gekkoga:
+  #   image: gekkoga:latest
+  #   stdin_open: true
+  #   tty: true
+  #   links:
+  #     - db
+  #     - gekko
+
+# front end only
+# chart, dateranges, strat params, results, plot annotations on chart
+  # web:
+  #   build: .
+  #   ports:
+  #     - 80:80
+  #   links:
+  #     - db
+
 # the backend that runs all the calculations
 # this can be node for now, but can also use python
   # backtester:
@@ -30,23 +51,4 @@ services:
 
 # given any date range and candle interval, returns array of candles
   # candles:
-
-  # gekko:
-  #   image: gekko:latest
-  #   # stdin_open: true
-  #   # tty: true
-  #   ports:
-  #     - 80:3000
-  #   links:
-  #     - db
-  #   volumes:
-  #     - ../volumes/gekko/hist:/usr/src/app/history:rw
-
-  # gekkoga:
-  #   image: gekkoga:latest
-  #   stdin_open: true
-  #   tty: true
-  #   links:
-  #     - db
-  #     - gekko
 
