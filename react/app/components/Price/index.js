@@ -13,6 +13,7 @@ import styled from 'styled-components';
 
 const PriceWrapper = styled.div`
     text-align: center;
+    display: inline-block;
 `;
 
 class Price extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -69,7 +70,7 @@ class Price extends React.Component { // eslint-disable-line react/prefer-statel
     render() {
         return (
             <PriceWrapper>
-                {this.state.price.toFixed(3)}
+                {this.state.price > 0 ? `$${this.state.price.toFixed(2)}` : null}
             </PriceWrapper>
         );
     }

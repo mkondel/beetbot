@@ -18,7 +18,7 @@ import saga from './saga';
 import messages from './messages';
 
 const BeetWrapper = styled.div`
-    background: #dddddd;
+    // background: #dddddd;
     // background: #eaba66;
     height: 100%;
     text-align: center;
@@ -26,34 +26,34 @@ const BeetWrapper = styled.div`
 
 export class BeetChart extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    return (
-      <BeetWrapper>
-        <Helmet>
-          <title>BeetChart</title>
-          <meta name="description" content="Description of BeetChart" />
-        </Helmet>
-        <FormattedMessage {...messages.header} />
-        <ChartComponent/>
-      </BeetWrapper>
-    );
-  }
+      return (
+          <BeetWrapper>
+              <Helmet>
+                  <title>BeetChart</title>
+                  <meta name="description" content="Description of BeetChart" />
+              </Helmet>
+              {/*<FormattedMessage {...messages.header} />*/}
+              <ChartComponent/>
+          </BeetWrapper>
+      );
+    }
 }
 
 BeetChart.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
 };
 
 
 function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
+    return {
+        dispatch,
+    };
 }
 
 const withConnect = connect(null, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'beetChart', saga });
 
 export default compose(
-  withSaga,
-  withConnect,
+    withSaga,
+    withConnect,
 )(BeetChart);

@@ -16,12 +16,13 @@ import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Footer from 'components/Footer/Loadable';
+import Header from 'components/Header/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import BeetChart from 'containers/BeetChart/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 const AppWrapper = styled.div`
-    background: #cccccc;
+    // background: #cccccc;
     // background: #caacec88;
     // background: #ecd5ac;
     height: 100%;
@@ -30,6 +31,7 @@ const AppWrapper = styled.div`
 export default function App() {
   return (
     <AppWrapper>
+      <Header/>
       <Switch>
         <Route exact path="/" component={BeetChart} />
         <Route exact path="/home" component={HomePage} />
