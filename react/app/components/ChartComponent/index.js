@@ -35,9 +35,10 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         this.state.ws.onopen = () => this.state.ws.send(JSON.stringify(this.state.params));
         this.state.ws.onmessage = (msg) => {
             var data = JSON.parse(msg.data);
+            // console.log(data)
             const product = data.product_id;
             const price = parseFloat(data.price);
-            const date = data.date;
+            const date = data.time;
             const side = data.side;
             const size = parseFloat(data.size);
             const usd = price * size;
@@ -67,14 +68,20 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             console.log(`data`);
             this.setState({data}, ()=>{
                 // console.log('state')
-                console.log(`state ${JSON.stringify(this.state.data[0])}`)
-                // this.joinData()
+                // console.log(`state ${JSON.stringify(this.state.data[0])}`)
+                this.joinData()
             });
         });
     }
     addTrade({price, date, size}){
-        console.log(`${price} ${size}`);
-        this.setState({price});
+        // console.log(`${date} ${price} ${size}`);
+        const product = this.state.product;
+        const candle = [new Date(date).getTime(), price, price, price, price, size];
+        const parsedCandle = this.parseDataArray({candle, product});
+        console.log(candle);
+        const joinedData = [...this.state.joinedData, parsedCandle];
+        // joinedData.push(parsedCandle);
+        this.setState({joinedData, price});
     }
     // this is for parsing candle data from GDAX
     parseDataArray({candle, product}){
@@ -119,15 +126,15 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         this.setState({joinedData: this.state.data});
     }
     render() {
-        if( this.state === null || this.state.data === null ){
+        if( this.state === null || this.state.joinedData === null ){
             return <div>loading...</div>
         }
         return (
             <div>
                 {this.state.price > 0 ? this.state.price.toFixed(2) : `connecting...`}
                 {/*this.state.price.toFixed(2)*/}
-                {<CandleStickChart type='hybrid' data={this.state && this.state.data ? this.state.data : null} />}
-                {/*<CandleStickChart type='hybrid' data={this.state.data} />*/}
+                {/*<CandleStickChart type='hybrid' data={this.state && this.state.data ? this.state.data : null} />*/}
+                {<CandleStickChart type='hybrid' data={this.state.joinedData} />}
             </div>
         );
     }
