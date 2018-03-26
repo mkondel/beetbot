@@ -17,33 +17,29 @@ class CandleStickChart extends React.Component {
     render() {
         const { type, data, ratio, width } = this.props;
         const xAccessor = d => d.date
-        const xExtents = [
-			xAccessor(last(data)),
-			xAccessor(data[data.length - 100])
-		];
-		// return <p>hi hello</p>
-	// }
-// }
         return (
-            <ChartCanvas height={400}
-                    ratio={ratio}
-                    width={width}
-                    margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
-                    type={type}
-                    seriesName="MSFT"
-                    data={data}
-                    xAccessor={xAccessor}
-                    displayXAccessor={xAccessor}
-                    xScale={scaleTime()}
-                    xExtents={xExtents}
-                    >
+            <div>
+                {/*<span>{JSON.stringify(data[0])}</span>*/}
+                <ChartCanvas height={400}
+                        ratio={ratio}
+                        width={width}
+                        margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+                        type={type}
+                        seriesName="MSFT"
+                        data={data}
+                        xAccessor={xAccessor}
+                        displayXAccessor={xAccessor}
+                        xScale={scaleTime()}
+                        >
 
-                <Chart id={1} yExtents={d => [d.high, d.low]}>
-                    <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-                    <YAxis axisAt="left" orient="left" ticks={5} />
-                    <CandlestickSeries width={timeIntervalBarWidth(utcDay)}/>
-                </Chart>
-            </ChartCanvas>
+                    <Chart id={1} yExtents={d => [d.high, d.low]}>
+                        <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
+                        <YAxis axisAt="left" orient="left" ticks={5} />
+                        <CandlestickSeries />
+                        {/*<CandlestickSeries width={timeIntervalBarWidth(utcDay)}/>*/}
+                    </Chart>
+                </ChartCanvas>
+            </div>
         );
     }
 }
