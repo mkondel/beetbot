@@ -27,6 +27,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             },
             data: null,
             joinedData: null,
+            currentCandle: null,
             product: 'BTC-USD',
             granularity: 60,
         };
@@ -66,22 +67,27 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         this.getHistoricalCandles(this.state.product, this.state.granularity)
         .then(data => {
             console.log(`data`);
-            this.setState({data}, ()=>{
-                // console.log('state')
-                // console.log(`state ${JSON.stringify(this.state.data[0])}`)
-                this.joinData()
-            });
+            this.setState({data}, ()=>this.joinData());
         });
     }
+    // add trade price(OHLC) and volume to the current "candle"
     addTrade({price, date, size}){
-        // console.log(`${date} ${price} ${size}`);
+        console.log(`${date} ${price} ${size}`);
         const product = this.state.product;
-        const candle = [new Date(date).getTime(), price, price, price, price, size];
+        const candle = [new Date().getTime(), price, price, price, price, size];
+        // const candle = [new Date(date).getTime(), price, price, price, price, size];
         const parsedCandle = this.parseDataArray({candle, product});
-        console.log(candle);
-        const joinedData = [...this.state.joinedData, parsedCandle];
-        // joinedData.push(parsedCandle);
-        this.setState({joinedData, price});
+        let currentCandle = this.state.currentCandle;
+        if(currentCandle === null){
+            currentCandle = parsedCandle;
+        }else{
+            price > currentCandle.high ? currentCandle.high = price : null;
+            price < currentCandle.low ? currentCandle.low = price : null;
+            currentCandle.close = price;
+        }
+    }
+    appendCurrentCandle(){
+        console.log(`appendCurrentCandle`);
     }
     // this is for parsing candle data from GDAX
     parseDataArray({candle, product}){
@@ -94,7 +100,6 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             volume: candle[5],
             split: '',
             dividend: '',
-            // product,
         };
     }
     getHistoricalCandles(product, granularity){
