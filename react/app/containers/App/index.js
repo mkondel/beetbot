@@ -15,7 +15,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Header from 'components/Header/Loadable';
+import Footer from 'components/Footer/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import BeetChart from 'containers/BeetChart/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -30,12 +30,12 @@ const AppWrapper = styled.div`
 export default function App() {
   return (
     <AppWrapper>
-      <Header/>
       <Switch>
         <Route exact path="/" component={BeetChart} />
         <Route exact path="/home" component={HomePage} />
         <Route component={NotFoundPage} />
       </Switch>
+      <Footer/>
     </AppWrapper>
   );
 }

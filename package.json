@@ -13,6 +13,7 @@
     "build-ui": "cd react && yarn && yarn build",
     "build-this": "mkdir build && cp -r package.json webserver.js react/build/* ./build",
     "build": "yarn clean && yarn build-ui && yarn build-this && docker-compose build",
+    "down": "docker-compose down",
     "up": "docker-compose up"
   },
   "private": true
