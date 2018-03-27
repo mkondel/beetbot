@@ -22,7 +22,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
       <HeaderWrapper>
         {/*<span>All your beetcoin are belong to us.</span>*/}
         {/*<br/>*/}
-        <span>The price of bitcoin is too damn high!</span>
+        {/*<span>The price of bitcoin is too damn high!</span>*/}
       </HeaderWrapper>
     );
   }

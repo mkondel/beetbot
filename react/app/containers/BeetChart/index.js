@@ -29,7 +29,7 @@ export class BeetChart extends React.Component { // eslint-disable-line react/pr
       return (
           <BeetWrapper>
               <Helmet>
-                  <title>BeetChart</title>
+                  <title>Beetcoin</title>
                   <meta name="description" content="Description of BeetChart" />
               </Helmet>
               {/*<FormattedMessage {...messages.header} />*/}

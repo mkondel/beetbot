@@ -25,6 +25,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             product: 'BTC-USD',
             granularity: 60,
             ticksPerCandle: 150,
+            uiUpdateInterval: 200,
         };
         this.ticksLeft = this.state.ticksPerCandle;
     }
@@ -63,6 +64,20 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             }
             return null;
         }
+
+        // update tick counter
+        this.updateTicksEvery(this.state.uiUpdateInterval)
+    }
+    updateTicksEvery(interval){
+        const timer = setInterval(()=>{
+            clearInterval(timer);
+            // do the thing
+            this.setState(
+                { ticksLeft: this.ticksLeft }, 
+                // call itself
+                ()=>this.updateTicksEvery(interval)
+            )
+        }, interval);
     }
     // add trade price(OHLC) and volume to the current "candle"
     addTrade({price, date, size}){
@@ -121,13 +136,13 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             return (
                 <div>
                     {/*<div>data: {JSON.stringify(this.state.data)}</div>*/}
-                    {/*<div>ticksLeft: {this.ticksLeft}</div>*/}
                     {/*<div>{JSON.stringify(this.state.currentCandle)}</div>*/}
+                    {<div>ticksLeft: {this.state.ticksLeft}</div>}
                     {<CandleStickChart type='hybrid' data={this.state.data} />}
                 </div>
             );
         }else{
-            return <div>loading...</div>
+            return <div>loading first candle... ticksLeft: {this.state.ticksLeft}</div>
         }
     }
 }
