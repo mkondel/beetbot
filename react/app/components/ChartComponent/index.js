@@ -19,18 +19,14 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         super();
         this.state = {
             price: -1,
-            timeout: 1000,
             ws: new WebSocket('wss://ws-feed.gdax.com'),
-            params: {
-                'type': 'subscribe',
-                'channels': [{'name': 'matches', product_ids: ['BTC-USD']}]
-            },
+            params: {'type': 'subscribe','channels': [{'name': 'matches', product_ids: ['BTC-USD']}]},
             data: null,
-            joinedData: null,
-            currentCandle: null,
             product: 'BTC-USD',
             granularity: 60,
+            ticksPerCandle: 150,
         };
+        this.ticksLeft = this.state.ticksPerCandle;
     }
     componentDidMount(){
         this.state.ws.onopen = () => this.state.ws.send(JSON.stringify(this.state.params));
@@ -48,8 +44,6 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
                     switch(product) {
                         case 'BTC-USD':
                             this.addTrade({price, date, size});
-                            // // update the page title
-                            // this.updateTitle({price, side})
                             break;
                         default:
                             break;
@@ -57,37 +51,57 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
                     break;
                 case 'last_match':
                     console.log(`last candle... ${price} ${date} ${data.size} $${usd}`);
+                    // const product = this.state.product;
+                    // const candles = [this.parseDataArray({
+                    //     candle: [new Date().getTime()/1000, price, price, price, price, size], 
+                    //     product,
+                    // })]
+                    // this.setState({data: candles});
                     break;
                 default:
                     break;
             }
             return null;
         }
-        // this.getData()
-        this.getHistoricalCandles(this.state.product, this.state.granularity)
-        .then(data => {
-            console.log(`data`);
-            this.setState({data}, ()=>this.joinData());
-        });
     }
     // add trade price(OHLC) and volume to the current "candle"
     addTrade({price, date, size}){
         console.log(`${date} ${price} ${size}`);
+
         const product = this.state.product;
-        const candle = [new Date().getTime(), price, price, price, price, size];
-        // const candle = [new Date(date).getTime(), price, price, price, price, size];
-        const parsedCandle = this.parseDataArray({candle, product});
-        let currentCandle = this.state.currentCandle;
-        if(currentCandle === null){
-            currentCandle = parsedCandle;
+
+        if(this.currentCandle){
+            console.log(`currentCandle exists`);
+            price > this.currentCandle.high ? this.currentCandle.high = price : null;
+            price < this.currentCandle.low ? this.currentCandle.low = price : null;
+            this.currentCandle.close = price;
+            this.currentCandle.volume += size;
+            this.ticksLeft--;
+            if(this.ticksLeft <= 0){
+                this.makeNewCandle();
+            }
         }else{
-            price > currentCandle.high ? currentCandle.high = price : null;
-            price < currentCandle.low ? currentCandle.low = price : null;
-            currentCandle.close = price;
+            this.currentCandle = this.parseDataArray({
+                candle: [new Date().getTime()/1000, price, price, price, price, size], 
+                product,
+            });
         }
+
     }
-    appendCurrentCandle(){
-        console.log(`appendCurrentCandle`);
+    makeNewCandle(){
+        console.log(`makeNewCandle`);
+        // get all candles
+        const data = this.state.data ? this.state.data : [];
+        // append current candle to data
+        data.push(this.currentCandle);
+        // clear current candle
+        this.currentCandle = null;
+        // reset tick counter
+        this.ticksLeft = this.state.ticksPerCandle;
+        // save new data, an empty current candle, and a reset tick counter to state
+        // this.setState({data, currentCandle, ticksLeft}, ()=>this.joinData());
+        this.setState({data});
+
     }
     // this is for parsing candle data from GDAX
     parseDataArray({candle, product}){
@@ -102,46 +116,19 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             dividend: '',
         };
     }
-    getHistoricalCandles(product, granularity){
-        const url = `https://api.gdax.com/products/${product}/candles?granularity=${granularity}`;
-        console.log(granularity, product, url)
-        return fetch(url)
-        .then(res=>res.json())
-        // .then(json=>{
-        //  console.log(`${JSON.stringify(json)}`)
-        // })
-        .then(json=>{
-            if(json && json[0] && json[0][0]){
-                console.log('testing')
-                const lastDate = new Date(json[0][0]*1000)
-                const firstDate = new Date(json[json.length-1][0]*1000)
-                console.log(firstDate, lastDate)
-                return json
-            }
-        })
-        .then(
-            candles=>candles ? candles.reverse().map(
-                candle=>this.parseDataArray({candle, product})
-            ) : null
-        )
-    }
-    joinData(){
-        console.log(`saved candles to state`);
-        // console.log(`saved candles to state ${JSON.stringify(this.state, null, 1)}`);
-        this.setState({joinedData: this.state.data});
-    }
     render() {
-        if( this.state === null || this.state.joinedData === null ){
+        if( this.state.data && this.state.data.length > 1 ){
+            return (
+                <div>
+                    {/*<div>data: {JSON.stringify(this.state.data)}</div>*/}
+                    {/*<div>ticksLeft: {this.ticksLeft}</div>*/}
+                    {/*<div>{JSON.stringify(this.state.currentCandle)}</div>*/}
+                    {<CandleStickChart type='hybrid' data={this.state.data} />}
+                </div>
+            );
+        }else{
             return <div>loading...</div>
         }
-        return (
-            <div>
-                {this.state.price > 0 ? this.state.price.toFixed(2) : `connecting...`}
-                {/*this.state.price.toFixed(2)*/}
-                {/*<CandleStickChart type='hybrid' data={this.state && this.state.data ? this.state.data : null} />*/}
-                {<CandleStickChart type='hybrid' data={this.state.joinedData} />}
-            </div>
-        );
     }
 }
 
@@ -150,34 +137,3 @@ ChartComponent.propTypes = {
 };
 
 export default ChartComponent;
-
-
-
-    // componentDidMount() {
-    //     console.log(`ChartComponent mounted`)
-    //     this.getData()
-    // }
-    // getData() {
-    //     // const url = `https://api.gdax.com/products/${this.state.product}/candles?granularity=${this.state.granularity}`;
-    //     // fetch(url)
-
-    //     fetch("http://rrag.github.io/react-stockcharts/data/MSFT.tsv")
-    //     .then(response => response.text())
-    //     .then(data => tsvParse(data, this.parseData(parseDate)))
-    //     .then(data => {
-    //         console.log(`received ${data.length} candles ${JSON.stringify(data[0])}`)
-    //         this.setState({ data }, ()=>console.log('tsv') )
-    //     })
-    //     .catch(error=>console.log(`ERROR: ${error}`))
-    // }
-    // parseData(parse) {
-    //     return function(d) {
-    //         d.date = parse(d.date);
-    //         d.open = +d.open;
-    //         d.high = +d.high;
-    //         d.low = +d.low;
-    //         d.close = +d.close;
-    //         d.volume = +d.volume;
-    //         return d;
-    //     };
-    // }
