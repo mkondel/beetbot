@@ -11,11 +11,14 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 // import Price from 'components/Price/Loadable';
 import styled from 'styled-components';
-import Img from 'components/Img/Loadable';
-import Banner from '../../images/avatar.png';
+// import Img from 'components/Img/Loadable';
 
 const HeaderWrapper = styled.div`
     text-align: center;
+`;
+const ImgWrapper = styled.div`
+    max-width: 60px;
+    display: inline-flex;
 `;
 const DonateWrapper = styled.div`
     text-align: left;
@@ -31,7 +34,10 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   render() {
     return (
       <div>
-        {<Img src={Banner}/>}
+        {/*<Img src='avatar.png' alt='avatar'/>*/}
+        <ImgWrapper>
+          <img src='avatar.png'/>
+        </ImgWrapper>
         <AnotherWrapper>
           <Donate coin='BTC' addr='14FP4HGMGU4m4gpWYQwiFYyjeDsXd4BhDE'/>
           <Donate coin='LTC' addr='LKSup2r941U3wH5yXbiCRXay1NUoWg6gBc'/>

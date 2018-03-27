@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { scaleTime } from "d3-scale";
 import { utcDay } from "d3-time";
+import { format } from 'd3-format';
 
 import { ChartCanvas, Chart } from "react-stockcharts";
 import {
@@ -20,9 +21,9 @@ import { last, timeIntervalBarWidth } from "react-stockcharts/lib/utils";
 
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import {
-    // CrossHairCursor,
-    // MouseCoordinateX,
-    // MouseCoordinateY,
+    MouseCoordinateX,
+    MouseCoordinateY,
+    CrossHairCursor,
     EdgeIndicator,
 } from 'react-stockcharts/lib/coordinates';
 
@@ -48,6 +49,27 @@ class CandleStickChart extends React.Component {
         const xExtents = [start + candleOffset, end];
         // console.log(`${xExtents}`)
 
+        const crossHairStyles = {
+            stroke: '#000000'
+        }
+        const candleStickStyles = {
+            opacity: 1,
+            wickStroke: '#000000',
+            // stroke: '#FFFFFF77',
+            // stroke: '#000000',
+            // widthRatio: 0.5,
+            candleStrokeWidth: 5,
+            stroke: d => d.close > d.open ? '#6BA583' : '#FF0000',
+            fill: d => d.close > d.open ? '#6BA583' : '#FF0000',
+        }
+        const coorinateStyles = {
+            // fill: '#FFFFFF',
+        }
+        const edgeStyles = {
+            lineStroke: 'white',
+            fill: d => d.close > d.open ? '#6BA583' : '#FF0000',
+        }
+
         return (
             <div>
                 {/*<span>{JSON.stringify(data[0])}</span>*/}
@@ -70,7 +92,7 @@ class CandleStickChart extends React.Component {
                     >
                         <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
                         <YAxis axisAt="left" orient="left" ticks={5} />
-                        <CandlestickSeries />
+                        <CandlestickSeries {...candleStickStyles}/>
                         {/*<CandlestickSeries width={timeIntervalBarWidth(utcDay)}/>*/}
 
                         <EdgeIndicator
@@ -78,7 +100,15 @@ class CandleStickChart extends React.Component {
                             itemType='last'
                             orient='right'
                             edgeAt='right'
+                            {...edgeStyles}
                         />
+                        <CrossHairCursor {...crossHairStyles} />
+                        {<MouseCoordinateY
+                            at='left'
+                            orient='left'
+                            displayFormat={format('.2f')}
+                            {...coorinateStyles}
+                        />}
                     </Chart>
 
                     <Chart id={2} 
@@ -89,6 +119,7 @@ class CandleStickChart extends React.Component {
                         <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
                         <YAxis axisAt="left" orient="left" ticks={5} />
                         <BarSeries yAccessor={d => d.volume}/>
+                        <CrossHairCursor {...crossHairStyles} />
                     </Chart>
                 </ChartCanvas>
             </div>

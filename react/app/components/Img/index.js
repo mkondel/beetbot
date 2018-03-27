@@ -20,7 +20,7 @@ class Img extends React.Component { // eslint-disable-line react/prefer-stateles
   render() {
     return (
       <ImgWrapper>
-        <img src={this.props.src}/>
+        <img src={this.props.src} alt={this.props.alt}/>
       </ImgWrapper>
     );
   }

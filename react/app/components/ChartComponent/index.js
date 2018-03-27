@@ -84,7 +84,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
     }
     // add trade price(OHLC) and volume to the current "candle"
     addTrade({price, date, size}){
-        console.log(`${date} ${price} ${size}`);
+        // console.log(`${date} ${price} ${size}`);
 
         const product = this.state.product;
 
@@ -107,7 +107,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
 
     }
     makeNewCandle(){
-        console.log(`makeNewCandle`);
+        // console.log(`makeNewCandle`);
         // get all candles
         const data = this.state.data ? this.state.data : [];
         // append current candle to data
