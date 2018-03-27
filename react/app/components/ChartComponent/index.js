@@ -15,14 +15,14 @@ import { timeParse } from "d3-time-format";
 const parseDate = timeParse("%Y-%m-%d");
 
 class ChartComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             price: -1,
             ws: new WebSocket('wss://ws-feed.gdax.com'),
-            params: {'type': 'subscribe','channels': [{'name': 'matches', product_ids: ['BTC-USD']}]},
+            params: {'type': 'subscribe','channels': [{'name': 'matches', product_ids: [props.product]}]},
             data: null,
-            product: 'BTC-USD',
+            product: props.product,
             granularity: 60,
             ticksPerCandle: 5,
             uiUpdateInterval: 200,
@@ -43,7 +43,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             switch(data.type) {
                 case 'match':
                     switch(product) {
-                        case 'BTC-USD':
+                        case this.props.product:
                             this.addTrade({price, date, size});
                             break;
                         default:

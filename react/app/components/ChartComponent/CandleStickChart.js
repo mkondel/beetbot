@@ -6,12 +6,25 @@ import { scaleTime } from "d3-scale";
 import { utcDay } from "d3-time";
 
 import { ChartCanvas, Chart } from "react-stockcharts";
-import { CandlestickSeries } from "react-stockcharts/lib/series";
+import {
+    BarSeries,
+    CandlestickSeries,
+    // VolumeProfileSeries,
+    // BollingerSeries,
+    // RSISeries,
+    // MACDSeries,
+} from 'react-stockcharts/lib/series';
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last, timeIntervalBarWidth } from "react-stockcharts/lib/utils";
 
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
+import {
+    // CrossHairCursor,
+    // MouseCoordinateX,
+    // MouseCoordinateY,
+    EdgeIndicator,
+} from 'react-stockcharts/lib/coordinates';
 
 // class CandleStickChart extends React.Component {
 	// render() {
@@ -51,11 +64,31 @@ class CandleStickChart extends React.Component {
                         xExtents={xExtents}
                         >
 
-                    <Chart id={1} yExtents={d => [d.high, d.low]}>
+                    <Chart id={1} 
+                        yExtents={d => [d.high*1.7, d.low*0.95]}
+                        height={height / 1.5}
+                    >
                         <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
                         <YAxis axisAt="left" orient="left" ticks={5} />
                         <CandlestickSeries />
                         {/*<CandlestickSeries width={timeIntervalBarWidth(utcDay)}/>*/}
+
+                        <EdgeIndicator
+                            yAccessor={d => d.close} 
+                            itemType='last'
+                            orient='right'
+                            edgeAt='right'
+                        />
+                    </Chart>
+
+                    <Chart id={2} 
+                        yExtents={d => [d.volume, 0]}
+                        height={height / 4}
+                        origin={(w, h) => [0, h - height/4]}
+                    >
+                        <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
+                        <YAxis axisAt="left" orient="left" ticks={5} />
+                        <BarSeries yAccessor={d => d.volume}/>
                     </Chart>
                 </ChartCanvas>
             </div>

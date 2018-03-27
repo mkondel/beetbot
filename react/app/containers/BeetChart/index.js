@@ -25,17 +25,17 @@ const BeetWrapper = styled.div`
 `;
 
 export class BeetChart extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-      return (
-          <BeetWrapper>
-              <Helmet>
-                  <title>Beetcoin</title>
-                  <meta name="description" content="Description of BeetChart" />
-              </Helmet>
-              {/*<FormattedMessage {...messages.header} />*/}
-              <ChartComponent/>
-          </BeetWrapper>
-      );
+    render() {
+        return (
+            <BeetWrapper>
+                <Helmet>
+                    <title>Beetcoin</title>
+                    <meta name="description" content="Description of BeetChart" />
+                </Helmet>
+                {/*<FormattedMessage {...messages.header} />*/}
+                {<ChartComponent product='BTC-USD'/>}
+            </BeetWrapper>
+        );
     }
 }
 
