@@ -24,7 +24,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             data: null,
             product: 'BTC-USD',
             granularity: 60,
-            ticksPerCandle: 150,
+            ticksPerCandle: 5,
             uiUpdateInterval: 200,
         };
         this.ticksLeft = this.state.ticksPerCandle;
@@ -52,12 +52,10 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
                     break;
                 case 'last_match':
                     console.log(`last candle... ${price} ${date} ${data.size} $${usd}`);
-                    // const product = this.state.product;
-                    // const candles = [this.parseDataArray({
-                    //     candle: [new Date().getTime()/1000, price, price, price, price, size], 
-                    //     product,
-                    // })]
-                    // this.setState({data: candles});
+                    this.setState({data: [this.parseDataArray({
+                        candle: [new Date().getTime()/1000, price, price, price, price, size], 
+                        product: this.state.product,
+                    })]});
                     break;
                 default:
                     break;
@@ -86,7 +84,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         const product = this.state.product;
 
         if(this.currentCandle){
-            console.log(`currentCandle exists`);
+            // console.log(`currentCandle exists`);
             price > this.currentCandle.high ? this.currentCandle.high = price : null;
             price < this.currentCandle.low ? this.currentCandle.low = price : null;
             this.currentCandle.close = price;
@@ -132,13 +130,29 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         };
     }
     render() {
-        if( this.state.data && this.state.data.length > 1 ){
+        const candle = this.currentCandle;
+        let data = this.state.data;
+
+        if(data && candle){
+            // both data and candle, combine together
+            // console.log(`both data and candle, combine together`)
+            data = [...data, candle];
+        }else if(data){
+            // data only, do nothing
+            // console.log(`data only, do nothing`)
+        }else if(candle){
+            // candle only, turn into data
+            // console.log(`candle only, turn into data`)
+            data = [candle];
+        }
+        // console.dir(data);
+        if( data && data.length > 1 ){
             return (
                 <div>
                     {/*<div>data: {JSON.stringify(this.state.data)}</div>*/}
                     {/*<div>{JSON.stringify(this.state.currentCandle)}</div>*/}
                     {<div>ticksLeft: {this.state.ticksLeft}</div>}
-                    {<CandleStickChart type='hybrid' data={this.state.data} />}
+                    {<CandleStickChart type='hybrid' data={data} />}
                 </div>
             );
         }else{
