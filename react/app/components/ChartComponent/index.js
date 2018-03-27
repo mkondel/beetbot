@@ -14,6 +14,11 @@ import { tsvParse, csvParse } from  "d3-dsv";
 import { timeParse } from "d3-time-format";
 const parseDate = timeParse("%Y-%m-%d");
 
+import styled from 'styled-components';
+const ChartWrapper = styled.div`
+    text-align: initial;
+`;
+
 class ChartComponent extends React.Component { // eslint-disable-line react/prefer-stateless-function
     constructor(props){
         super(props);
@@ -24,7 +29,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             data: null,
             product: props.product,
             granularity: 60,
-            ticksPerCandle: 5,
+            ticksPerCandle: 30,
             uiUpdateInterval: 200,
         };
         this.ticksLeft = this.state.ticksPerCandle;
@@ -148,20 +153,21 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
         // console.dir(data);
         if( data && data.length > 1 ){
             return (
-                <div>
+                <ChartWrapper>
                     {/*<div>data: {JSON.stringify(this.state.data)}</div>*/}
                     {/*<div>{JSON.stringify(this.state.currentCandle)}</div>*/}
                     {<div>ticksLeft: {this.state.ticksLeft}</div>}
                     {<CandleStickChart 
                         type='hybrid' 
                         data={data} 
-                        height={window.innerHeight * 0.782}
-                        candleCount={50}
+                        height={window.innerHeight - 200}
+                        width={window.innerWidth - 20}
+                        candleCount={100}
                     />}
-                </div>
+                </ChartWrapper>
             );
         }else{
-            return <div>loading first candle... ticksLeft: {this.state.ticksLeft}</div>
+            return <ChartWrapper>loading first candle... ticksLeft: {this.state.ticksLeft}</ChartWrapper>
         }
     }
 }

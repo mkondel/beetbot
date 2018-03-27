@@ -1,29 +1,29 @@
 version: '2'
 services:
 
-# all the datas are belong to us
-  db:
-    image: postgres:alpine
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_DB: gekko
-      POSTGRES_USER: budfox
-      POSTGRES_PASSWORD: GordonGekko
-    volumes:
-      - ../volumes/postgres:/var/lib/postgresql/data:rw
+# # all the datas are belong to us
+#   db:
+#     image: postgres:alpine
+#     ports:
+#       - 5432:5432
+#     environment:
+#       POSTGRES_DB: gekko
+#       POSTGRES_USER: budfox
+#       POSTGRES_PASSWORD: GordonGekko
+#     volumes:
+#       - ../volumes/postgres:/var/lib/postgresql/data:rw
 
-# the GEKKO bot
-  gekko:
-    image: gekko:latest
-    # stdin_open: true
-    # tty: true
-    ports:
-      - 80:80
-    links:
-      - db
-    volumes:
-      - ../volumes/gekko/nn_files:/var/nn_files:rw
+# # the GEKKO bot
+#   gekko:
+#     image: gekko:latest
+#     # stdin_open: true
+#     # tty: true
+#     ports:
+#       - 80:80
+#     links:
+#       - db
+#     volumes:
+#       - ../volumes/gekko/nn_files:/var/nn_files:rw
 
   # gekkoga:
   #   image: gekkoga:latest
@@ -35,10 +35,10 @@ services:
 
 # front end only
 # chart, dateranges, strat params, results, plot annotations on chart
-  # web:
-  #   build: .
-  #   ports:
-  #     - 80:80
+  web:
+    build: .
+    ports:
+      - 80:80
   #   links:
   #     - db
 

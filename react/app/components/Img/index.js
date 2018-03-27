@@ -12,7 +12,8 @@ import styled from 'styled-components';
 import messages from './messages';
 
 const ImgWrapper = styled.div`
-    text-align: center;
+    text-align: left;
+    display: inline;
 `;
 
 class Img extends React.Component { // eslint-disable-line react/prefer-stateless-function

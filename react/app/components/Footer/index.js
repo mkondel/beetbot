@@ -26,7 +26,6 @@ class Footer extends React.Component { // eslint-disable-line react/prefer-state
         {/*<BeetButton>ETH</BeetButton>*/}
         {/*<BeetButton>fake trades</BeetButton>*/}
         {/*<Img src={Banner}/>*/}
-        {<span>GDAX (5 ticks)</span>}
       </FooterWrapper>
     );
   }

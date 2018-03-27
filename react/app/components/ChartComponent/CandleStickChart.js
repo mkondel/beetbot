@@ -65,7 +65,7 @@ class CandleStickChart extends React.Component {
                         >
 
                     <Chart id={1} 
-                        yExtents={d => [d.high*1.7, d.low*0.95]}
+                        yExtents={d => [d.high*1.001, d.low*0.999]}
                         height={height / 1.5}
                     >
                         <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
