@@ -17,7 +17,7 @@ import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 	// render() {
 class CandleStickChart extends React.Component {
     render() {
-        const { type, data: initialData, ratio, width } = this.props;
+        const { type, data: initialData, ratio, width, height, candleCount } = this.props;
         // const xAccessor = d => d.date
         const xScaleProvider = discontinuousTimeScaleProvider
             .inputDateAccessor(d => d.date);
@@ -29,7 +29,7 @@ class CandleStickChart extends React.Component {
         } = xScaleProvider(initialData);
 
         const start = xAccessor(last(data));
-        const end = xAccessor(data[Math.max(0, data.length - 10)]);
+        const end = xAccessor(data[Math.max(0, data.length - candleCount)]);
 
         const candleOffset = 2;
         const xExtents = [start + candleOffset, end];
@@ -38,7 +38,7 @@ class CandleStickChart extends React.Component {
         return (
             <div>
                 {/*<span>{JSON.stringify(data[0])}</span>*/}
-                <ChartCanvas height={400}
+                <ChartCanvas height={height}
                         ratio={ratio}
                         width={width}
                         margin={{ left: 50, right: 50, top: 10, bottom: 30 }}

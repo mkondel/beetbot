@@ -152,7 +152,12 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
                     {/*<div>data: {JSON.stringify(this.state.data)}</div>*/}
                     {/*<div>{JSON.stringify(this.state.currentCandle)}</div>*/}
                     {<div>ticksLeft: {this.state.ticksLeft}</div>}
-                    {<CandleStickChart type='hybrid' data={data} />}
+                    {<CandleStickChart 
+                        type='hybrid' 
+                        data={data} 
+                        height={window.innerHeight * 0.782}
+                        candleCount={50}
+                    />}
                 </div>
             );
         }else{
