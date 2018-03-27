@@ -29,7 +29,7 @@ class ChartComponent extends React.Component { // eslint-disable-line react/pref
             data: null,
             product: props.product,
             granularity: 60,
-            ticksPerCandle: 30,
+            ticksPerCandle: 20,
             uiUpdateInterval: 200,
         };
         this.ticksLeft = this.state.ticksPerCandle;

@@ -12,9 +12,12 @@
     "clean": "rm -rf build yarn.lock node_modules",
     "build-ui": "cd react && yarn && yarn build",
     "build-this": "mkdir build && cp -r package.json webserver.js react/build/* ./build",
-    "build": "yarn clean && yarn build-ui && yarn build-this && docker-compose build",
-    "down": "docker-compose down",
-    "up": "docker-compose up"
+    "build": "yarn clean && yarn build-ui && yarn build-this",
+    "docker-build": "docker-compose build",
+    "docker-up": "docker-compose up",
+    "docker-down": "docker-compose down",
+    "aws-build": "docker build -t beetbot .",
+    "aws-run": "docker run -ti --net='host' beetbot"
   },
   "private": true
 }

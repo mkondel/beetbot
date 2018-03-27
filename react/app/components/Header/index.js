@@ -39,7 +39,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
           <Donate coin='BCH' addr='17rnBjebeLddLEjXUDVsMnjvyYa1AMdTqe'/>
         </AnotherWrapper>
         <HeaderWrapper>
-          {<span>GDAX BTC-USD (30 ticks/candle)</span>}
+          {<span>GDAX BTC-USD (20 ticks/candle)</span>}
         </HeaderWrapper>
       </div>
     );
