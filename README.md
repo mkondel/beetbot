@@ -36,4 +36,4 @@ TEXT:
 ![TEXT](https://URL.png)
 
 # <a name="demo"></a>Live Demo
-[TEXT](http://beetcoin.com/ "TEXT") demo running on AWS Beanstalk.
+[TEXT](http://maxkondel.com/ "TEXT") demo running on AWS Beanstalk.
